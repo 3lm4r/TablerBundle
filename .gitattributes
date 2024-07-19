@@ -7,3 +7,4 @@ phpstan.neon export-ignore
 phpunit.xml.dist export-ignore
 composer.lock export-ignore
 yarn.lock export-ignore
+docs/res/** filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,32 @@
+
+{% macro simpleCollection(items) %}
+    {% set _addLabel = addLabel|default("add new item")|t %}
+    {{ form_label(items) }}
+    <div {{ stimulus_controller('tb--simple-collection') }}
+        data-simple-collection-index-value="{{ items|length > 0 ? items|last.vars.name + 1 : 0 }}"
+        data-simple-collection-prototype-value="{{ _self.simpleCollectionItem(items.vars.prototype)|e('html_attr') }}"
+    >
+        <div {{ stimulus_target('tb--simple-collection', 'tb--collectionContainer') }}>
+            {% for item in items %}
+                {{ _self.simpleCollectionItem(item) }}
+            {% endfor %}
+        </div>
+        <div class="btn-list float-end mb-3">
+            <button type="button" class="btn btn-primary tb--js-simple-collection-add-item" aria-label="{{ _addLabel }}" {% if tabler_bundle.stimulusEnabled %}{{ stimulus_action('tb--simple-collection', 'addCollectionElement') }}{% endif %}>{{ _addLabel }}</button>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro simpleCollectionItem(item) %}
+    {% set _removeLabel = removeLabel|default("remove this item")|t %}
+    <div class="tb--item-container mb-2">
+        {{ form_errors(item) }}
+        <div class="input-group">
+            {{ form_widget(item) }}
+            <button type="button" class="btn btn-danger tb--js-simple-collection-remove-item" aria-label="{{ _removeLabel }}" {% if tabler_bundle.stimulusEnabled %}{{ stimulus_action('tb--simple-collection', 'removeCollectionElement') }{% endif %}}>
+                <span class="fa fa-close"></span>
+            </button>
+        </div>
+        {{ form_help(item) }}
+    </div>
+{% endmacro %}

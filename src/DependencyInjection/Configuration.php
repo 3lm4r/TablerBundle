@@ -159,6 +159,9 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('security_cover_url')
                     ->defaultValue('https://placehold.co/1000')
                 ->end()
+                ->scalarNode('stimulus')
+                    ->defaultValue('false')
+                ->end()
             ->end()
         ->end();
 

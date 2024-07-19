@@ -66,5 +66,17 @@ class TablerExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('tabler_bundle.options', $options);
         $container->setParameter('tabler_bundle.routes', $routes);
         $container->setParameter('tabler_bundle.icons', $icons);
+
+        $this->postProcess($container);
+    }
+
+    protected function postProcess (ContainerBuilder $container): void
+    {
+        $bundles = $this->container->getExtensions();
+        if (true === $container->getParameter('tabler_bundle.options.stimulus')
+                && !(in_array($bundles, 'StimulusBundle'))) {
+            $container->setParameter('tabler_bundle.options.stimulus', false);
+            \trigger_error('If you want to use \'stimulus\' in TablarBundle install it with \'composer require symfony/stimulus-bundle\' or configure in tblar config \'stimulus\' to disabled / false.', E_USER_WARNING);
+        }
     }
 }
